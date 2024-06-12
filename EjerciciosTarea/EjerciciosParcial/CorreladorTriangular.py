@@ -22,5 +22,13 @@ def correlador(signal,T):
 
   return corr*T
 
-# Esto es parte del test - No va en la respuesta
+# Esto es parte del test - No va en la respuesta 
+# Prueba 1
+r =[0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. , 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0. ]
+print(round(correlador(r,0.1),2))
 
+# Prueba 2
+r =[0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. , 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0. ]
+np.random.seed(1234)
+r = r + np.random.normal(0,0.5,len(r))
+print(round(correlador(r,0.1),2))
