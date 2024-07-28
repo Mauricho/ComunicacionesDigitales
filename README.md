@@ -25,5 +25,5 @@ Para correr los códigos generados se debe utilizar Python y tener Visual Studi 
 - [Teórico](Teorico)
 
 ## Proyecto Integrador:
-- [Proyecto Integrador](ProyectoIntegrador)
+- [Proyecto Integrador](ProyectoIntegrador.ipynb)
 
