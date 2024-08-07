@@ -1,0 +1,112 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definir parámetros
+SF = 8
+BW = 1000
+Fs = 1000
+T = 1 / BW
+Ts = 2**SF * T
+num_samples = int(Ts * Fs)
+num_symbols = 3
+
+# Generar varios símbolos aleatorios
+symbols = np.random.randint(0, 2**SF, num_symbols)
+
+def generar_symb(Ts, num_samples, s, SF):
+    k = s
+    symb_f = np.zeros(num_samples, dtype=np.float64)
+    symb_t = np.zeros(num_samples, dtype=np.complex128)
+
+    for n in range(num_samples):
+        if k >= 2**SF:
+            k = k - 2**SF
+        k = k + 1
+        symb_f[n] = k
+        symb_t[n] = (1 / np.sqrt(2**SF)) * np.exp(1j * 2 * np.pi * k * (k / (2 * 2**SF)))
+
+    return symb_t, symb_f
+
+# Generar el chirp para demodulación
+base_down_chirp = np.zeros(num_samples, dtype=np.complex128)
+k = 0
+for n in range(num_samples):
+    if k >= 2**SF:
+        k = k - 2**SF
+    k = k + 1
+    base_down_chirp[n] = (1 / np.sqrt(2**SF)) * np.exp(-1j * 2 * np.pi * k * (k / (2**SF * 2)))
+
+# Variables para almacenar los resultados
+all_symb_t = []
+all_symb_f = []
+all_dechirped = []
+all_dechirped_fft = []
+
+# Procesar cada símbolo
+for s in symbols:
+    symb_t, symb_f = generar_symb(Ts, num_samples, s, SF)
+    dechirped = symb_t * base_down_chirp
+    dechirped_fft = np.fft.fft(dechirped)
+    
+    all_symb_t.append(symb_t)
+    all_symb_f.append(symb_f)
+    all_dechirped.append(dechirped)
+    all_dechirped_fft.append(dechirped_fft)
+
+# Convertir listas a arrays para facilitar el manejo
+all_symb_t = np.array(all_symb_t)
+all_symb_f = np.array(all_symb_f)
+all_dechirped = np.array(all_dechirped)
+all_dechirped_fft = np.array(all_dechirped_fft)
+
+# Graficar los resultados
+plt.figure(figsize=(15, 10))
+
+# Subplot 1: Variación de frecuencia por símbolo
+plt.subplot(5, 1, 1)
+for i, symb_f in enumerate(all_symb_f):
+    plt.plot(np.linspace(0, Ts, num_samples) * 1000, symb_f, label=f'Símbolo {symbols[i]}')
+plt.title(f"Variación de frecuencia por símbolo con un factor de dispersión {SF}")
+plt.xlabel("Tiempo [ms]")
+plt.ylabel("Frecuencia [Hz]")
+plt.legend()
+
+# Subplot 2: Símbolos modulados
+plt.subplot(5, 1, 2)
+for i, symb_t in enumerate(all_symb_t):
+    plt.plot(np.linspace(0, Ts, num_samples) * 1000, symb_t.real, label=f'Símbolo {symbols[i]}')
+plt.title(f"Símbolos modulados con un factor de dispersión {SF}")
+plt.xlabel("Tiempo [ms]")
+plt.ylabel("Amplitud")
+plt.legend()
+
+# Subplot 3: Chirp utilizado para demodular
+plt.subplot(5, 1, 3)
+plt.plot(np.linspace(0, Ts, num_samples) * 1000, base_down_chirp.real)
+plt.title(f"Chirp utilizado para demodular con factor de dispersión {SF}")
+plt.xlabel("Tiempo [ms]")
+plt.ylabel("Amplitud")
+
+# Subplot 4: Símbolos demodulados
+plt.subplot(5, 1, 4)
+for i, dechirped in enumerate(all_dechirped):
+    plt.plot(np.linspace(0, Ts, num_samples) * 1000, dechirped.real, label=f'Símbolo {symbols[i]}')
+plt.title(f"Símbolos demodulados con un factor de dispersión {SF}")
+plt.xlabel("Tiempo [ms]")
+plt.ylabel("Amplitud")
+plt.legend()
+
+# Subplot 5: Espectro de frecuencias de los símbolos demodulados
+plt.subplot(5, 1, 5)
+for i, dechirped_fft in enumerate(all_dechirped_fft):
+    f_sym = (np.arange(num_samples) * Fs / num_samples * 2**SF) / BW
+    power = np.abs(dechirped_fft)**2 / num_samples
+    plt.plot(f_sym, power, label=f'Símbolo {symbols[i]}')
+plt.title(f"Espectro de frecuencias para los símbolos demodulados con un factor de dispersión {SF}")
+plt.xlabel("Frecuencia [Hz]")
+plt.ylabel("Potencia [W]")
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
