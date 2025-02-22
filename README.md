@@ -1,8 +1,12 @@
-# Tareas y Trabajos Prácticos Comunicaciones Digitales Profesor Ing. Martin Ayarde
+# Tareas y Trabajos Prácticos Comunicaciones Digitales 
 
 En este repositorio se organizan los trabajos prácticos, tareas y archivos generados para la materia Comunicaciones Digitales en 
 el dictado del año 2024.
 Para correr los códigos generados se debe utilizar Python y tener Visual Studi Code® o Anaconda® para visualizar Jupyter® .
+
+## Profesor
+
+* Ing. Martin Ayarde
 
 ## Ejercicios de tarea:
 - [Clase 1](EjerciciosTarea/Clase1)
