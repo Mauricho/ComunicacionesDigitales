@@ -29,5 +29,13 @@ Para correr los códigos generados se debe utilizar Python y tener Visual Studio
 - [Teórico](Teorico)
 
 ## Proyecto Integrador:
-- [Proyecto Integrador](ProyectoIntegrador.ipynb)
+- [Proyecto Integrador](ProyectoIntegrador/ProyectoIntegrador.ipynb)
 
+## Entorno Conda recomendado
+
+Este proyecto utiliza el entorno Conda llamado **`comdig_env`**, configurado con **Python 3.11.7**.  
+Para activarlo, ejecutar:
+
+```bash
+conda activate comdig_env
+```
