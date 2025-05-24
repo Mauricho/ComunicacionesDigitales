@@ -1,8 +1,14 @@
 Drive: https://docs.google.com/spreadsheets/d/1BijTccr6yz_2evDfgKeNQdaWwbgzyZLIQR3dRcHZYI0/edit#gid=0
 
+VPN:
+200.16.19.5:443
+
 Username: LabSDR2024
 Password: ComDigitales2024
 
 Jupyter:
 Username: sdrLab_user1
 Password: sdrLab_user1
+
+JupyterHub:
+192.168.1.60
